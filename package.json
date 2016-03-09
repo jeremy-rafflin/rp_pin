@@ -1,0 +1,11 @@
+{
+  "name": "rp-pin",
+  "version": "1.0.0",
+ "description": "Gladys modul. Help to using the raspberry pin.",
+  "keywords": [],
+  "dependencies": {
+      "wiring-pi": "^2.1.0"
+  },
+  "author": "Rafflin Jérémy",
+  "license": "Creative Commons 3.0 France"
+}

@@ -1,0 +1,76 @@
+ <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.0-rc.2/angular-sanitize.js"></script>
+
+		<div class="config">
+			<input type="checkbox" name="show_wp_pin" id="id_show_wp_pin" ng-model="vm.show_wp_pin" /> <label for="id_show_wp_pin" class="wp_pin_number">Show Wiring-pi pin</label> <br />
+			<input type="checkbox" name="show_wbcm_gpio" id="id_show_wbcm_gpio" ng-model="vm.show_wbcm_gpio" /> <label for="id_show_wbcm_gpio" class="bcm_gpio_number">Show BCM GPIO</label> <br />
+		</div>
+		
+		<div id="pin_selector">
+			<div id="pin_base"></div>
+			<div id="raspberry_pins">
+				<div ng-repeat="pin in vm.listOfPins" class="pin {{pin.type}} {{pin.class}}" ng-click="vm.select_pin(pin.physical_number);">
+					<span class="pin_number">{{pin.physical_number}} </span>
+					{{pin.name}} 
+					<span class="wp_pin_number" ng-show="vm.show_wp_pin && pin.wp_pin != null"> ({{pin.wp_pin}})</span>
+					<span class="bcm_gpio_number"  ng-show="vm.show_wbcm_gpio && pin.bcm_gpio != null"> ({{pin.bcm_gpio}})</span>
+					<!-- Affichage de l'etât et de la dernière valeur -->
+					<span ng-show="pin.mode!=null">
+						<span class="glyphicon glyphicon-arrow-up" alt="Mode Output" ng-show="pin.mode=='output'" aria-hidden="true"></span>
+						<span class="glyphicon glyphicon-arrow-down" alt="Mode input" ng-show="pin.mode=='input'" aria-hidden="true"></span>
+					</span>
+					<span class="pin_last_value" ng-show="pin.actual_value!=null"><abbr title="Last know value">{{pin.actual_value}}</abbr></span>
+					
+					<div class="pin_connector {{pin.type}} "></div>
+				</div>
+			</div>
+		</div>
+		<div id="pin_info">
+			<h3>{{vm.listOfPins[vm.pin_info.current].name}}</h3>
+			<div>Physical number : {{vm.listOfPins[vm.pin_info.current].physical_number}} </div>
+			<div ng-show="vm.listOfPins[vm.pin_info.current].wp_pin != null">Wiring-pi pin number : {{vm.listOfPins[vm.pin_info.current].wp_pin}} </div>
+			<div ng-show="vm.listOfPins[vm.pin_info.current].bcm_gpio != null">BCM GPIO pin number : {{vm.listOfPins[vm.pin_info.current].bcm_gpio}} </div>
+			
+			<!-- Suivant le type de pin, on affiche  -->
+			<div ng-show="vm.listOfPins[vm.pin_info.current].type=='GPIO'">
+				<div>
+					<label for="id_mode">Mode : </label>
+					<select id="id_mode" name="mode" ng-model="vm.pin_info.mode" >
+						<option value="output">Output</option>
+						<option value="input">Input</option>
+					</select>
+					<select id="id_digital_or_analogique" name="digital_or_analogique" ng-model="vm.pin_info.digital_or_analogique" >
+						<option value="digital">Digital</option>
+                        <option value="analogique"  ng-show=" vm.enableAnalogicValue == true">Analogique</option>
+					</select>
+				</div>
+				<!-- on affiche la sasie de la valeur que pour le mode output -->
+				<div ng-show="vm.pin_info.mode == 'output' && vm.pin_info.digital_or_analogique == 'digital'">
+					<label for="id_value">Value : </label>
+					<select id="id_value_select" name="value_select" ng-model="vm.pin_info.value_select" >
+						<option value="high">High</option>
+						<option value="low">Low</option>
+                        <option ng-show="vm.enableFlash == true" value="flash">Flash</option>
+					</select>
+				</div>
+                <div ng-show=" vm.enableAnalogicValue == true && vm.pin_info.mode == 'output' && vm.pin_info.digital_or_analogique == 'analogique'">
+					<label for="id_value">Value : </label>
+                    <span><input type="text" name="digital_value" ng-model="vm.pin_info.value_digital" /></span>
+				</div>
+				
+				<div ng-show="vm.pin_info.mode == 'input'">
+					<label for="id_value">Value : </label>
+					<span>{{vm.listOfPins[vm.pin_info.current].actual_value}}</span>
+				</div>
+                <div ng-bind-html="vm.listOfPins[vm.pin_info.current].description"  class="pin_description"></div>
+				
+				<div class="">
+                    <input type="button" value="valider" class="btn btn-primary" ng-click="vm.validCurrentInput()" ng-show="vm.listOfPins[vm.pin_info.current].actual_value != 'flash'" />
+                    <input type="button" value="Stop Flash" class="btn btn-primary" ng-click="vm.stopFlash()" ng-show="vm.listOfPins[vm.pin_info.current].actual_value == 'flash'" />
+					<input type="button" value="Reset" class="btn btn-info" ng-click="vm.resetCurrentInput()" />
+				</div>
+			</div>
+		</div>
+        <div ng-show="vm.listOfPins[vm.pin_info.current].type!='GPIO'">
+            <div class="pin_description" ng-bind-html="vm.listOfPins[vm.pin_info.current].description"></div>
+       </div>
+    </div>

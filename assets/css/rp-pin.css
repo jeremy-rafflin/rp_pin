@@ -1,0 +1,149 @@
+html {
+  box-sizing: border-box;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+#raspberry_pins {
+	width: 600px;
+}
+
+#pin_selector {
+	position: relative;
+}
+
+.pin {
+  float: left;
+  width: 275px;
+  position: relative;
+  padding: 7px 5px;
+  color: #999999;
+  border: dashed 1px transparent;
+  cursor: pointer;
+}
+
+.pin:hover {
+	border: dashed 1px;
+}
+
+.pin.active {
+	border: solid 1px;
+}
+
+#pin_base {
+	background-color: #184753;
+	width: 75px;
+	height: 485px;
+	position: absolute;
+	top: -3px;
+	left: 238px;
+}
+
+.pin_connector {
+	width: 21px;
+	height: 21px;
+	display: inline-block;
+	border-radius: 50%;
+	float: right;
+	border: solid #ffffff 1px;
+}
+
+.pin_number {
+	color: black; 
+}
+
+.pin_connector::after{
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+	background-color: #ffffff;
+	margin-left: -10px;
+	content: '';
+	display: block;
+	margin-top: 6px;
+	margin-left: 6px;
+}
+
+.pin:nth-child(2n) {
+	text-indent: 70px;
+}
+
+.pin:nth-child(2n) .pin_connector {
+	float: left;
+}
+
+/* Couleur des pins */
+.pin_connector.alim {
+	background-color: red;
+}
+
+.pin_connector.masse {
+	background-color: black;
+}
+
+.pin_connector.alimLow {
+	background-color: orange;
+}
+
+.pin_connector.synchrone {
+	background-color: #268BD2;
+}
+
+.pin_connector.GPIO {
+	background-color: green;
+}
+
+.pin_connector.xD {
+	background-color: orange;
+}
+
+.pin_connector.other {
+	background-color: #D33682;
+}
+
+.pin.alim:hover, .pin.active.alim {
+	border-color: red;
+}
+
+
+.pin.masse:hover, .pin.active.masse {
+	border-color: black;
+}
+
+.pin.alimLow:hover, .pin.active.alimLow {
+	border-color: orange;
+}
+
+.pin.synchrone:hover, .pin.active.synchrone {
+	border-color: #268BD2;
+}
+
+.pin.GPIO:hover, .pin.active.GPIO {
+	border-color: green;
+}
+
+.pin.xD:hover, .pin.active.xD {
+	border-color: orange;
+}
+
+.pin.other:hover, .pin.active.other {
+	border-color: #D33682;
+}
+
+.wp_pin_number {
+	color: blue;
+}
+
+.bcm_gpio_number {
+	color: #D6264E;
+}
+
+.box-body {
+    overflow: hidden;
+}
+
+.pin_description {
+    font-style: italic;   
+}
