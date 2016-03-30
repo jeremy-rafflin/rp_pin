@@ -20,7 +20,6 @@ module.exports = {
 	index : function(req, res, next){
 
 	},
-
 	/**
 	 * @method getPin
 	 * @param req
@@ -32,7 +31,7 @@ module.exports = {
 	 */
 	getPinValue : function(req, res, next){
         // on indique que l'on va utiliser les numéros de pin physique
-        wpi.setup('phys');
+        wpiService.setup('phys');
         // on fait divers controle sur les valeurs possibles
         var error = "";
         if ( req.param('mode') != "input" ) {
@@ -51,9 +50,9 @@ module.exports = {
         if ( req.param('mode') == "input" ) {
 
             if ( req.param('digital_or_analogique') == "digital" ) {
-                var value = wpi.digitalRead(pin);
+                var value = wpiService.digitalRead(pin);
             } else if (req.param('digital_or_analogique') == "analogique") {
-                var value = wpi.analogRead(pin);
+                var value = wpiService.analogRead(pin);
             }
         }
 
@@ -82,7 +81,7 @@ module.exports = {
 	 */
     setPinValue : function(req, res, next){
         // on indique que l'on va utiliser les numéros de pin physique
-        wpi.setup('phys');
+        wpiService.setup('phys');
         // on fait divers controle sur les valeurs possibles
         var error = "";
         if ( req.param('mode') != "output" ) {
@@ -101,9 +100,9 @@ module.exports = {
             return res.json({"error":error});
         }
         var pin = parseInt(req.param('physical_number'));
-        var output = req.param('mode') == "output" ? wpi.OUTPUT : wpi.INPUT;
+        var output = req.param('mode') == "output" ? wpiService.OUTPUT : wpiService.INPUT;
 
-        wpi.pinMode(pin, output);
+        wpiService.pinMode(pin, output);
         // si on est en mode écriture 
         if ( req.param('mode') == "output" ) {
             if ( req.param('digital_or_analogique') == "digital" ) {
@@ -115,12 +114,12 @@ module.exports = {
                     RP_PINService.stopFlash(pin);
                     value = 0;
                 } else {
-                    var value = req.param('actual_value') == 'high' ? wpi.HIGH : wpi.LOW;
-                    wpi.digitalWrite(pin, value);
+                    var value = req.param('actual_value') == 'high' ? wpiService.HIGH : wpiService.LOW;
+                    wpiService.digitalWrite(pin, value);
                 }
             } else if (req.param('digital_or_analogique') == "analogique") {
                 var value = parseInt(req.param('actual_value'));
-                wpi.analogWrite(pin, value);
+                wpiService.analogWrite(pin, value);
             }
         }
         

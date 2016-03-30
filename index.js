@@ -8,7 +8,7 @@ module.exports = function rp_pin(sails) {
 
    sails.config.Event.on('sailsReady', function(){
       /* console.log('rp_pin is load');
-       wpi.setup('phys');
+       wpiService.setup('phys');
        RP_PINService.flash(12, 1000);*/
    });
    

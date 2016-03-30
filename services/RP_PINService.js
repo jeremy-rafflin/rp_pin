@@ -15,7 +15,7 @@ var rp_pin = {
         duration_time = duration_time || 10000;
         var d = new Date();
 
-        wpi.pinMode(pin, wpi.OUTPUT);
+        wpiService.pinMode(pin, wpiService.OUTPUT);
         pin_in_flash_mode[pin] = true; // register the pin is in flashing mode
         var current_state_of_pin = 0;
 
@@ -30,11 +30,11 @@ var rp_pin = {
             }
             // change pin state
             current_state_of_pin = (current_state_of_pin == 1 ? 0 : 1);
-            wpi.digitalWrite(pin, current_state_of_pin);
+            wpiService.digitalWrite(pin, current_state_of_pin);
             // wait after next loop ocurance
-            wpi.delay(delay);
+            wpiService.delay(delay);
         }
-        wpi.digitalWrite(pin, 0);
+        wpiService.digitalWrite(pin, 0);
     },
     /**
     * Ne fonctionne pas pour le moment (la requête de stop attend la fin du flash pour ce faire)
